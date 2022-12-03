@@ -68,7 +68,6 @@ public class StringListImpl implements StringList {
             throw new IllegalIndexException("Index out of bounds");
         }
         stringArray[index] = item;
-        size++;
         return item;
     }
 
@@ -124,14 +123,12 @@ public class StringListImpl implements StringList {
         if (item == null) {
             throw new NullInputException("String shouldn't be null");
         }
-        int itemIndex = -1;
         for (int i = 0; i < size; i++) {
             if (stringArray[i].equals(item)) {
-                itemIndex = i;
-                break;
+                return i;
             }
         }
-        return itemIndex;
+        return -1;
     }
 
     @Override
@@ -139,14 +136,12 @@ public class StringListImpl implements StringList {
         if (item == null) {
             throw new NullInputException("String shouldn't be null");
         }
-        int itemIndex = -1;
         for (int i = size - 1; i >= 0; i--) {
             if (stringArray[i].equals(item)) {
-                itemIndex = i;
-                break;
+                return i;
             }
         }
-        return itemIndex;
+        return -1;
     }
 
     @Override
@@ -166,7 +161,7 @@ public class StringListImpl implements StringList {
             return false;
         }
         for (int i = 0; i < size; i++) {
-            if (!this.stringArray[i].equals(otherList.toArray()[i])) {
+            if (!this.toArray()[i].equals(otherList.toArray()[i])) {
                 return false;
             }
         }
@@ -188,10 +183,11 @@ public class StringListImpl implements StringList {
         for (int i = 0; i < size; i++) {
             stringArray[i] = null;
         }
+        size = 0;
     }
 
     @Override
     public String[] toArray() {
-        return stringArray;
+        return Arrays.copyOf(stringArray, size);
     }
 }
