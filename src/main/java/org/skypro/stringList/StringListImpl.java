@@ -19,10 +19,13 @@ public class StringListImpl implements StringList {
 
     }
 
+    public int getInitLength() {
+        return initLength;
+    }
+
     public void doubleArray() {
         initLength *= 2;
-        String[] tmpArray = Arrays.copyOf(stringArray, initLength);
-        stringArray = tmpArray;
+        stringArray = Arrays.copyOf(stringArray, initLength);
     }
 
     @Override
@@ -80,7 +83,7 @@ public class StringListImpl implements StringList {
                 itemIndex = i;
             }
             if (itemIndex != initLength) {
-                if (itemIndex == initLength - 1) {
+                if (i == initLength - 1) {
                     stringArray[i] = null;
                 } else {
                     stringArray[i] = stringArray[i + 1];
@@ -107,6 +110,7 @@ public class StringListImpl implements StringList {
                 stringArray[i] = stringArray[i + 1];
             }
         }
+        size--;
         return itemToRemove;
     }
 
