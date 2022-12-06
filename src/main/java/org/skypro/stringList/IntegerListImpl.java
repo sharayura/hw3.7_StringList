@@ -23,7 +23,7 @@ public class IntegerListImpl implements IntegerList{
     }
 
     public void doubleArray() {
-        initLength *= 2;
+        initLength *= 1.5;
         integerArray = Arrays.copyOf(integerArray, initLength);
     }
 
@@ -38,6 +38,49 @@ public class IntegerListImpl implements IntegerList{
             arr[j] = temp;
         }
     }
+
+    public static void merge(Integer[] arr, Integer[] left, Integer[] right) {
+
+        int mainP = 0;
+        int leftP = 0;
+        int rightP = 0;
+        while (leftP < left.length && rightP < right.length) {
+            if (left[leftP] <= right[rightP]) {
+                arr[mainP++] = left[leftP++];
+            } else {
+                arr[mainP++] = right[rightP++];
+            }
+        }
+        while (leftP < left.length) {
+            arr[mainP++] = left[leftP++];
+        }
+        while (rightP < right.length) {
+            arr[mainP++] = right[rightP++];
+        }
+    }
+    public static void mergeSort(Integer[] arr) {
+        if (arr.length < 2) {
+            return;
+        }
+        int mid = arr.length / 2;
+        Integer[] left = new Integer[mid];
+        Integer[] right = new Integer[arr.length - mid];
+
+        for (int i = 0; i < left.length; i++) {
+            left[i] = arr[i];
+        }
+
+        for (int i = 0; i < right.length; i++) {
+            right[i] = arr[mid + i];
+        }
+
+        mergeSort(left);
+        mergeSort(right);
+
+        merge(arr, left, right);
+    }
+
+
 
     private boolean containsSorted(Integer[] arr, Integer element) {
         int min = 0;
@@ -103,7 +146,8 @@ public class IntegerListImpl implements IntegerList{
     }
 
     @Override
-    public Integer remove(Integer item) {
+    public Integer remove(Double item1) {
+        Integer item = item1.intValue();
         if (item == null) {
             throw new NullInputException("Item shouldn't be null");
         }
@@ -147,7 +191,7 @@ public class IntegerListImpl implements IntegerList{
     @Override
     public boolean contains(Integer item) {
         Integer[] tmp = Arrays.copyOf(integerArray, size);
-        sortInsertion(tmp);
+        mergeSort(tmp);
         return containsSorted(tmp, item);
     }
 
